@@ -1,6 +1,6 @@
 ###### tags: `第 11 屆 iT 邦鐵人賽`
 
-# 用 Flutter 開發一個 Android App 吧 - 
+# 用 Flutter 開發一個 Android App 吧 - Day1 ~ Day3
 
 
 ## Day 1.
@@ -143,3 +143,139 @@ Your application code is in ./lib/main.dart.
 ### Gitme Reborn UI 流程
   
   [待補]
+  
+---
+ 
+## Day 3.
+
+### 進入點
+
+`main.dart`
+``` dart
+import 'package:flutter/material.dart';
+import 'package:gitme_reborn/pages/login.dart';
+
+void main() => runApp(GitmeRebornApp());
+
+class GitmeRebornApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blueGrey,
+      ),
+      home: LoginPage(),
+    );
+  }
+}
+```
+
+![day3-1.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day3-1.png?raw=true)
+
+基本上跟一般程式語言一樣進入點在 `void main` 這個函數，這裡頭直接調用 Flutter SDK 所提供的 `runApp` 函數，去啟動整個 Flutter App。
+
+我直接將 Flutter 預設創建出來的 MyApp 稍微作些改寫，並刪除些不要的部份，剩下 20 行不到。
+
+而這裡 `runApp` 函數我們帶入 `GitmeRebornApp` 這個 `Widget` 給它(`StatelessWidget` 表示他是沒有附加狀態的 `Widget`)，後續 Flutter 都會幫你處理好。
+
+注意，這裡使用 `MaterialApp`，它直接封裝了 Google 推出的 Material Design 的一些設定。如果想使用 Apple iOS 風格設計可使用 `CupertinoApp` 來建構，基本上直接使用 `MaterialApp`就有得玩了~
+
+
+### 登入頁面
+
+`pages/login.dart`
+``` dart
+import 'package:flutter/material.dart';
+
+class LoginPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Login"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.person),
+                  labelText: "Name *",
+                  hintText: "Your Github account username",
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: Icon(Icons.remove_red_eye),
+                  labelText: "Password *",
+                  hintText: "Your Github account password or ...",
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 52.0,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 48.0,
+              height: 48.0,
+              child: RaisedButton(
+                child: Text("Login"),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+![day3-2.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day3-2.png?raw=true)
+
+接下來直接看看我們在 `GitmeRebornApp.home` 裡面自己寫的的 `LoginPage`。
+
+基本上所在撰寫新的 `Widget` 時都是以 `StatelessWidget` 起手，如果頁面會使用到一些狀態改變(使用者操作、讀取數據...等等事情發生時)，才會用到 `StatefulWidget`
+
+
+
+### 欸!? 暫停一下
+
+> blablabla 貼了一大堆程式碼，直接就進入業配(頁面)主題阿~~  
+> 根本無法承受阿~~~  
+> 一堆概念根本不知道怎麼來的阿...
+
+哦哦哦~ 我知道... 畢竟一開始我也是這樣的...
+
+以下一些概念，是我透過官方文件或影片理解到的:
+
+* Flutter 世界裡一切的東西都是 Widget。  
+  所以在開發 Flutter App，很大部分是在建構 Widget Tree(Widget 樹)，而大部份的 UI 功能會操作這些 Widget 也就夠了。
+
+* Flutter 很講重建構 UI 的方式應為陳述式(宣告式)(Declarative UI)的思考方式，相對於以前 Android 或 Java Swing 的命令式(Imperative UI)。  
+  ![Start thinking declaratively](https://flutter.dev/assets/development/data-and-backend/state-mgmt/ui-equals-function-of-state-54b01b000694caf9da439bd3f774ef22b00e92a62d3b2ade4f2e95c8555b8ca7.png)
+  所以在開發 Flutter App，如果仔細觀察，其實可以很容易的將規劃的 UI，直接對應到程式碼。  
+  所有事件(操作)發生都會改變狀態，而開發者應該直接思考的是  
+  
+  > **狀態如何輸入** 會 **輸出怎樣的畫面**
+  
+  ，也就是上圖的 f 函數。
+
+* [深入概念] Flutter 內部在構件及渲染畫面的步驟是  
+    
+  `Widget Tree => Element Tree => RenderObject Tree`
+  
+  可以想像大致 Element Tree 是中間人，它必須知道 Widget Tree 做了什麼狀態改變，它需要怎調整(重建) Element Tree，另外它還要通知 RenderObject Tree 去渲染畫面。
+
+
+
+好了，到這裡希望大家能多多少少理解到 Flutter 開發 UI 的概念，後續在看程式碼上也比較容易理解~
+
+
