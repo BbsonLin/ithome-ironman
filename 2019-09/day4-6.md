@@ -7,7 +7,7 @@
 
 ### 主頁面 - 首頁
 
-`page/home.dart`
+`lib/pages/home.dart`
 ``` dart
 import 'package:flutter/material.dart';
 
@@ -53,7 +53,7 @@ class MainPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
                 ),
->               ),
+              ),
               ListTile(
                 title: Text("Sign out"),
                 onTap: () {},
@@ -121,7 +121,7 @@ class HomePage extends StatelessWidget {
 ![day4-1.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-1.png?raw=true)
 
 
-這邊登入後會進入主畫面(MainPage)，根據 TabBar 四個 Tab 分成四個頁面，首頁(HomePage)、倉庫頁(RepoPage)、近況頁(ActivityPage)、問題頁(IssuesPage)
+這邊登入後會進入主畫面(MainPage)，根據 TabBar 四個 Tab 分成四個頁面，首頁(HomePage)、倉庫頁(RepoPage)、近況頁(ActivityPage)、問題頁(IssuePage)
 
 可以注意到，主畫面跟登入頁一樣使用 `Scaffold` 這個 Widget，主要搭配 `MaterialApp` 作使用，它包含了
 
@@ -202,7 +202,7 @@ class GitmeRebornRoutes {
 
 主要將 home 屬性移除，加上 routes 對應表格並且用 onGenerateRoute 來跳轉根路由到登入畫面(LoginPage)。
 
-`pages/home.dart` & `pages/login.dart`
+`lib/pages/home.dart` & `lib/pages/login.dart`
 [![day4-5.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-5.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/9a64f723e70d09e3f29621ee78c524dfa8ab16e4#diff-d3cda190df50f3330b22952d914ba8fe)
 
 再來，登入畫面中的登入按鈕和主畫面中的登出按鈕，當點擊他們時會使用 `Navigator` 導覽至新的頁面。
@@ -210,3 +210,111 @@ class GitmeRebornRoutes {
 今日成果
 
 ![day4-6.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-6.gif?raw=true)
+
+
+
+---
+
+
+## Day 5
+
+### 登入/登出
+
+登入按下登入按鈕後的時候，需要有一個 Loading 的 Modal，而在 Flutter 所提供的 Material 元件裡找不到能直接使用的，這時候就到 Dart 的資源管理網站 https://pub.dev/flutter 去找找有沒有別人寫好的元件吧~
+
+滿幸運的是，我找到一個名為 [flutter_progress_hud](https://pub.dev/packages/flutter_progress_hud) 的元件，整體狀態有 90 分呢~  
+
+照著文件範例修改一下 `lib/pages/login.dart`
+
+[![day5-1.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-1.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/eb9c76de098952ee8049288abec13d223b484c03#diff-9f0df600d112c287183a6aa77167120d)
+
+登出的話需要跳出一個讓使用者確定登出的 AlertDialog。
+
+修改 `lib/pages/home.dart`
+
+[![day5-2.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-2.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/eb9c76de098952ee8049288abec13d223b484c03#diff-d3cda190df50f3330b22952d914ba8fe)
+
+> 注意:  
+> * `pubspec.yaml` dependencies 裡面需要新增 `flutter_progress_hud: ^1.0.2` 這套件。
+> * 參考: [官方文件 - Using packages](https://flutter.dev/docs/development/packages-and-plugins/using-packages)
+
+--
+
+接下來，我們把後續的主頁面的排版先架構出來吧。
+
+在主頁面時可以看到笨笨的寫了好幾個 `ListTile` 和 `Divider`，這樣個作法也許在作 Demo 時還可以使用，但實際上若有數十個、數百個不就完了嗎？
+
+回想一下 Day3 講的 `Think declaratively`，其他頁面可以稍微改良一下，我們可以先暫時宣告變數當作狀態，接著 `Widget` 在從變數中填入對應要顯示的值。
+
+什麼意思呢~ 接著往下看。
+
+
+### 倉庫頁(RepoPage)
+
+`lib/pages/repo.dart`
+``` dart
+import 'package:flutter/material.dart';
+
+class RepoPage extends StatelessWidget {
+  final List repoList = [
+    {
+      "title": "BbsonLin/gitme_reborn",
+      "description": "No description provided.\n\n★ 0",
+      "lang": "● Dart"
+    },
+    {
+      "title": "BbsonLin/ithome-ironman",
+      "description": "No description provided.\n\n★ 0",
+      "lang": ""
+    },
+    {
+      "title": "BbsonLin/flask-request-logger",
+      "description":
+          "A Flask extension for recording requests and responses into database\n\n★ 3",
+      "lang": "● Python"
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView.separated(
+        itemCount: repoList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(repoList[index]["title"]),
+            subtitle: Text(repoList[index]["description"]),
+            trailing: Text(repoList[index]["lang"]),
+            isThreeLine: true,
+            contentPadding: EdgeInsets.all(16.0),
+            onTap: () {},
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) =>
+            const Divider(height: 0.0),
+      ),
+    );
+  }
+}
+```
+
+宣告 `final List repoList` 來暫時當作未來會拿到的資料包(狀態)，而且在 UI 上面採用 `ListView.separated` 這方式可以更快速達成想要的畫面。
+
+![day5-3.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-3.png?raw=true)
+
+
+### 近況頁(ActivityPage) 與 問題頁(IssuePage)
+
+那麼這兩個頁面其實就是依樣畫葫蘆，偷懶一下就不貼程式碼上來了~🤪
+詳細 commit 可以點擊成果 GIF 觀看~
+
+> 注意:  
+> 這邊雖然使用了變數儲存狀態，但還是使用 `StatelessWidget`，想要達成交互式(Reactive) UI 需要使用 `StatefulWidget`，後續會談到~
+
+
+今日成果
+
+[![day5-4.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-4.gif?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/6a837c743d9a792552ff32003171b0023c68d756)
+
+
+
