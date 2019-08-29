@@ -133,7 +133,7 @@ class HomePage extends StatelessWidget {
 
 一樣起手都是 `StatelessWidget`，上圖特別我用紅色框起來都是可以對應程式碼裡寫的 Widget，
 
-> 目前都只是再拉排版的動作，程式碼看起來不免看起來臃腫
+> 目前都只是再拉排版的動作，程式碼看起來不免看起來臃腫  
 > 之後都是需要慢慢重構，讓程式碼好維護管理的
  
 
@@ -184,7 +184,7 @@ class GitmeRebornRoutes {
 
 ![materialapp_variables](https://bbsonlin.github.io/images/2019-03-04-flutter-whats-in-materialapp/materialapp_variables.png)
 
-接下來就要談到 `MaterialApp` 裡是怎麼設定路由的。從上圖**紅框**中可以看到是影響頁面轉換的屬性。
+接下來簡單談一下 `MaterialApp` 裡是怎麼設定路由的。從上圖 **紅框** 中可以看到是影響頁面轉換的屬性。
 
 主要判斷的步驟為
 
@@ -197,7 +197,7 @@ class GitmeRebornRoutes {
 
 接下來，我修改了些原本的程式碼
 
-`main.dart`
+`lib/main.dart`
 [![day4-4.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-4.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/9a64f723e70d09e3f29621ee78c524dfa8ab16e4#diff-fe53fad46868a294b309fc85ed138997)
 
 主要將 home 屬性移除，加上 routes 對應表格並且用 onGenerateRoute 來跳轉根路由到登入畫面(LoginPage)。
@@ -220,9 +220,9 @@ class GitmeRebornRoutes {
 
 ### 登入/登出
 
-登入按下登入按鈕後的時候，需要有一個 Loading 的 Modal，而在 Flutter 所提供的 Material 元件裡找不到能直接使用的，這時候就到 Dart 的資源管理網站 https://pub.dev/flutter 去找找有沒有別人寫好的元件吧~
+登入按下登入按鈕後的時候，需要有一個 Loading 的 Modal，而在 Flutter 所提供的 Material 元件裡找不到能直接使用的，這時候就到 Dart 的套件管理網站 https://pub.dev/flutter 去找找有沒有別人寫好的套件吧~
 
-滿幸運的是，我找到一個名為 [flutter_progress_hud](https://pub.dev/packages/flutter_progress_hud) 的元件，整體狀態有 90 分呢~  
+滿幸運的是，我找到一個名為 [flutter_progress_hud](https://pub.dev/packages/flutter_progress_hud) 的套件，整體狀態有 90 分呢~  
 
 照著文件範例修改一下 `lib/pages/login.dart`
 
@@ -298,14 +298,16 @@ class RepoPage extends StatelessWidget {
 }
 ```
 
-宣告 `final List repoList` 來暫時當作未來會拿到的資料包(狀態)，而且在 UI 上面採用 `ListView.separated` 這方式可以更快速達成想要的畫面。
+宣告 `final List repoList` 來暫時當作未來會拿到的資料包(狀態)，而且在 UI 上面採用 `ListView.separated` 這方法可以更快速達成想要的畫面。
+
+程式碼看起來是不是更簡潔有力點了呢？
 
 ![day5-3.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-3.png?raw=true)
 
 
 ### 近況頁(ActivityPage) 與 問題頁(IssuePage)
 
-那麼這兩個頁面其實就是依樣畫葫蘆，偷懶一下就不貼程式碼上來了~🤪
+那麼這兩個頁面其實就是依樣畫葫蘆，偷懶一下就不貼程式碼上來了~🤪  
 詳細 commit 可以點擊成果 GIF 觀看~
 
 > 注意:  
@@ -318,3 +320,257 @@ class RepoPage extends StatelessWidget {
 
 
 
+---
+
+
+## Day 6
+
+### 導覽選單(Drawer)
+
+接下來完整導覽選單的部份，最上方 Header 的部份使用 [`UserAccountsDrawerHeader`](https://api.flutter.dev/flutter/material/UserAccountsDrawerHeader-class.html)，這是 Flutter 幫我們打造的 material Widget，來符合一致的 Material 風格。
+
+``` dart
+UserAccountsDrawerHeader(
+  decoration: BoxDecoration(
+    color: Colors.blueGrey,
+  ),
+  accountName: Text("Bbson Lin"),
+  accountEmail: Text("bobson801104@gmail.com"),
+  currentAccountPicture: CircleAvatar(
+    backgroundImage: NetworkImage(
+      "https://avatars2.githubusercontent.com/u/18156421?s=400&u=1f91dcf74134827fde071751f95522845223ed6a&v=4",
+    ),
+  ),
+  otherAccountsPictures: <Widget>[
+    Icon(Icons.edit, color: Colors.white),
+  ],
+),
+```
+
+`UserAccountsDrawerHeader` 提供了幾個人性化的屬性，像是 `accountName`、`accountEmail`、`currentAccountPicture` ...等，只要將這些屬性填上你想要的 Widget 就行了。
+
+![day6-1.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-1.jpeg?raw=true)
+
+導覽選單部份是用幾個 `ListTile` 做出來的，我們在 title 屬性多加了圖示。
+
+``` dart
+ListTile(
+  title: Row(
+    children: <Widget>[
+      Icon(Icons.power_settings_new),
+      SizedBox(width: 24.0),
+      Text("Sign out"),
+    ],
+  ),
+  onTap: () async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        content: Text("Are you sure to exit current account."),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Cancel"),
+            onPressed: () => Navigator.pop(context),
+          ),
+          FlatButton(
+            child: Text("OK"),
+            onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, "/login", ModalRoute.withName('/')),
+          ),
+        ],
+      ),
+    );
+  },
+),
+```
+
+其實目前看起來已經是有點小小的冗長(30行)，若是好幾個都這樣寫，不光是看起來難過，之後維護修改起來也不容易。
+
+解決的方法，就是自己再封裝 Widget，之後可以重複利用，如同 `UserAccountsDrawerHeader` 一般。
+
+`lib/components/drawer_tile.dart`
+``` dart
+import 'package:flutter/material.dart';
+
+class DrawerTile extends StatelessWidget {
+  const DrawerTile({
+    Key key,
+    this.icon,
+    this.text = "",
+    this.onPressed,
+  }) : super(key: key);
+
+  final Icon icon;
+  final String text;
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Row(
+        children: <Widget>[
+          icon,
+          SizedBox(width: 24.0),
+          Text(text),
+        ],
+      ),
+      onTap: onPressed ?? () {},
+    );
+  }
+}
+```
+
+個人習慣放自定義的 Widget 在 components 目錄裡面，`DrawerTile` 單純的封裝 `ListTile` 並把一些屬性定義出來 `icon`、`text`、`onPressed`。
+
+![day6-2.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-2.png?raw=true)
+
+
+### 搜尋頁(Search Page)
+
+
+搜尋頁面 Flutter 內也有提供 [`showSearch`](https://api.flutter.dev/flutter/material/showSearch.html) 及搭配的 [`SearchDelegate`](https://api.flutter.dev/flutter/material/SearchDelegate-class.html)。
+
+渲染出來的頁面是符合 [Material Design - Expandable search](https://material.io/archive/guidelines/patterns/search.html#search-in-app-search) 的設計。
+
+![day6-3.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-3.jpeg?raw=true)
+
+首先，要在按下搜尋按鈕時調用 `showSearch`。
+
+`lib/pages/search.dart`
+``` dart
+import 'package:flutter/material.dart';
+
+enum SearchTypes {
+  repos,
+  users,
+}
+
+// Use(Extends) SearchDelegate for Search Page
+class GitmeRebornSearchDelegate extends SearchDelegate {
+  SearchTypes _searchType = SearchTypes.repos;
+
+  @override
+  ThemeData appBarTheme(BuildContext context) => Theme.of(context); // AppBar 主題
+
+  @override
+  List<Widget> buildActions(BuildContext context) { // AppBar 右側
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = "";
+        },
+      ),
+      PopupMenuButton(
+        onSelected: (SearchTypes type) {
+          _searchType = type;
+          showSuggestions(context);
+        },
+        itemBuilder: (BuildContext context) {
+          return [
+            CheckedPopupMenuItem<SearchTypes>(
+              value: SearchTypes.repos,
+              checked: _searchType == SearchTypes.repos,
+              child: const Text("Search Repos"),
+            ),
+            CheckedPopupMenuItem<SearchTypes>(
+              value: SearchTypes.users,
+              checked: _searchType == SearchTypes.users,
+              child: const Text("Search Users"),
+            ),
+          ];
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) { // AppBar 左側
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) { // 搜尋結果
+    return SearchRepoResult();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) { // 搜尋建議
+    if (query == "") {
+      switch (_searchType) {
+        case SearchTypes.repos:
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(32.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  "Search Repos",
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Theme.of(context).textSelectionColor,
+                  ),
+                ),
+              ],
+            ),
+          );
+        case SearchTypes.users:
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(32.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  "Search Users",
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Theme.of(context).textSelectionColor,
+                  ),
+                ),
+              ],
+            ),
+          );
+        default:
+      }
+    }
+    return Center(child: Text("Search for $query ..."));
+  }
+}
+
+class SearchRepoResult extends StatelessWidget {
+  ... (略)
+}
+```
+
+直接看程式碼可能有點霧煞煞，我們來看渲染出來的頁面，與其對應的關係。
+
+![day6-4.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-4.png?raw=true)
+
+可以看得出 `GitmeRebornSearchDelegate.buildActions` 就是建構紅框 actions，依此類推 leading, suggestions 和 results 。
+
+> 注意:  
+> * `SearchDelegate` 只是個抽象類別，本身沒實現 buildActions 等函數，一定需要自己實現搜尋的 Delegate。
+> * 調用 `showSearch` 時要帶入 delegate 屬性的是自己實現的 `GitmeRebornSearchDelegate`，並非 `SearchDelegate`，否則會跳出紅色錯誤頁面。
+> * Flutter 為何會這麼設計，原因之一無非是更彈性一點，你可以建構自己的 actions 區，又不失風格一致性。
+
+--
+
+今日成果
+
+![day6-5.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-5.gif?raw=true)
+
+
+*參考*
+
+* [Medium - Implementing search in Flutter](https://medium.com/flutterpub/implementing-search-in-flutter-17dc5aa72018)
+* [Flutter YouTube - Flutter's Search Support (The Boring Flutter Development Show, Ep. 10)](https://youtu.be/Wm3OiFBZ2xI)
