@@ -3,7 +3,15 @@
 # 用 Flutter 開發一個 Android App 吧 - Day1 ~ Day3
 
 
-## Day 1.
+## Day 1. 前言、系列規劃
+
+### 緣起
+
+老實說在學習 Flutter 並用在幾個專案後，一直想花時間整理成文章在自己的部落格。  
+但是寫成筆記形式，怕過於潦草之後會看不懂；寫成教學文，要讓別人看得懂勢必要花很多的時間去撰寫，這計畫就一直擱置到現，。
+
+不過最近正好有一小段空檔期，又剛好看到鐵人賽要開始了，想藉此機來整理吧~
+
 
 ### 移動端的開發
 
@@ -36,47 +44,53 @@
 
 
 >備註:  
-> * `Flutter` 2018 5月釋出 Beta 3，經過兩版 Preview，在 2018 12月推出 1.0.0。
-> * `Flutter` 2019 7月推出 1.7.8，經過 3 個 stable 版本。
-> * 筆者大概是 2018 5、6月時，在 `Flutter` 與 `RN` 兩個框架中作選擇，不過當初半路出家學習前端技術，較為熟悉的前端框架是 `Vue.js`，所以沒選擇 `RN`，而 `NativeScript-Vue` 還沒出現。
-> * 當初選擇 `Flutter`，另外一個原因是 `Android` 是由 `Google` 在稱的手機作業系統，所以覺得會進 [Google Graveyard](https://killedbygoogle.com/) 機率應該不高才對 ... 🤪
+> * Flutter 2018 5月釋出 Beta 3，經過兩版 Preview，在 2018 12月推出 1.0.0。
+> * Flutter 2019 7月推出 1.7.8，目前已經過 3 個 stable 版本。[Flutter SDK releases](https://flutter.dev/docs/development/tools/sdk/releases)
+> * 我大概是 2018 5、6月時，在 Flutter 與 RN 兩個框架中作選擇，不過當初半路出家學習前端技術，較為熟悉的前端框架是 Vue.js，所以沒選擇 RN，而 NativeScript-Vue 還沒出現。
+> * 當初選擇 Flutter，另外一個原因是 Android 是由 Google 在撐的手機作業系統，所以覺得會進 [Google Graveyard](https://killedbygoogle.com/) 機率應該不高才對 ... 🤪
 > * **其實還有很多其他的開發工具(框架)，而選擇工具為個人因素決定，並無絕對的好壞，只要能達成目的，且自己用的上手最重要。(❤ ✌ 😃 Love & Peace)**
 
 
 ### Dart(Dartlang) 語言的學習
 
-還未接觸 `Flutter` 前，我是完全沒聽過這語言。  
-而在決定要學習 `Flutter` 後，Dartlang 這門語言就一定得學習了。  
+還未接觸 Flutter 前，我是完全沒聽過這語言。  
+而在決定要學習 Flutter 後，Dartlang 這門語言就一定得學習了。  
 因為我個人工作經驗是有接觸過 Java 與 Python，在加上有自學 JavaScript，在學習程式語言上其實有很多概念是相通的，所以學習 Dartlang 上並沒有太大的負擔。
 
-我的學習來源是 YouTube 及 Dartlang 官方文件，筆者也有整理幾篇文章在 [**個人部落格**](https://bbsonlin.github.io/tags/dart/)，還有發表在 [**掘金個人專欄**](https://juejin.im/user/59cc3f02f265da06700af973/posts?sort=popular) 上，有興趣的人可作參考；另外也有其他鐵人賽的參賽選手大家也可以去看看~~ 筆者在這門語言上面就不多花筆墨了~
+我的學習來源是 YouTube 及 Dartlang 官方文件，個人也有整理幾篇 Dart 基礎系列文章在 [**個人部落格**](https://bbsonlin.github.io/tags/dart/)，還有發表在 [**掘金個人專欄**](https://juejin.im/user/59cc3f02f265da06700af973/posts?sort=popular) 上，有興趣的人可作參考；另外 **Women Who Code Taipei** 分享在 YouTube 上的 [**Dart 基礎授課直播**](https://www.youtube.com/playlist?list=PLzUrwSu_9-1sA7LVlFWcm69ROnTXz6BNh) 也可以參考看看喔~
+
+分享 Dartlang 教學不在這次鐵人賽的目標，所以我在這門語言上面就不多花筆墨了~
 
 
 ### Flutter 的學習
 
-其實到現在 `Flutter` 的學習資源已經滿多的了，[**官方文件**](https://flutter.dev) 提供的內容滿值得細讀的，對了解框架上有一定程度的幫助。
+其實到現在 Flutter 的學習資源已經滿多的了，[**官方文件**](https://flutter.dev) 提供的內容滿值得細讀的，對了解框架上有一定程度的幫助。
 
-另外 `Flutter` 官方維護的 YouTube 頻道也有很多影片資源，筆者從這上面學到很多東西，也可看得出來這團隊的用心。
+另外 Flutter 官方維護的 [**YouTube 頻道**](https://www.youtube.com/channel/UCwXdFgeE9KYzlDdR7TG9cMw) 也有很多影片資源，尤其是其中的 [The Boring Flutter Development Show](https://www.youtube.com/playlist?list=PLjxrf2q8roU3ahJVrSgAnPjzkpGmL9Czl) 我從這上面學到很多東西(完全可以看出當開發者的辛酸 XD)，也可看得出來這團隊的用心。
 
 
 ### 30 天規劃
 
-* **[1-2 篇]** 前言 & 簡單介紹
+* **[Day 1-2]** 前言 & 簡單介紹
 * UI 部份 [10~15 篇]
 * API 串接 [5~10 篇]
 * Store(State) 狀態管理 [5~8篇]
-* **[31+ 篇]** Enhancement & Others
+* **[Day 31+]** Enhancement & Others
+
+原則上，我不會一一的讀官方文檔來介紹，而是直接以作一個專案的形式，看碰到什麼問題或需求，來帶出 Flutter 使用方式及解決方法。
+
+如果有疑問、發現錯誤或語句不通順的部份，歡迎下面留言~ 😆
 
 ---
 
-## Day 2. 
+## Day 2. 環境設定、流程規劃
 
 ### 開發環境
 
 > 作業系統(OS): Ubuntu Desktop 18.04.2 LTS  
 > 編輯器(Editor): VS Code  
 > Flutter 版本: stable (1.7.8+hotfix.4) 
-> Dart 版本: 2.4.0
+> Dart 版本: 2.4.0  
 > Android SDK: 28  
 > Android 版本: 7.1.1  
 > 手機裝置: HTC U11  
@@ -142,22 +156,22 @@ Your application code is in ./lib/main.dart.
   
 ### Gitme Reborn UI 流程
   
-  ![day2-3.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day2-3.png?raw=true)
+  [![day2-3.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day2-3.png?raw=true)](https://raw.githubusercontent.com/BbsonLin/ithome-ironman/master/2019-09/images/day2-3.png)
 
-希望 30 天可以達成上圖的 70%-80% 的功能，有些 UI 或功能會先考量簡易版，之後有時間可以再慢慢加上。
+希望 30 天可以達成上圖的 80%-90% 的功能，有些 UI 或功能會先考量簡易版，之後有時間可以再慢慢加上。
 
 
 ---
 
 
-## Day 3.
+## Day 3. 進入點、登入頁面
 
 ### 進入點
 
-`main.dart`
+`lib/main.dart`
 ``` dart
-import 'package:flutter/material.dart';
-import 'package:gitme_reborn/pages/login.dart';
+import "package:flutter/material.dart";
+import "package:gitme_reborn/pages/login.dart";
 
 void main() => runApp(GitmeRebornApp());
 
@@ -165,7 +179,7 @@ class GitmeRebornApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "Gitme Reborn",
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
@@ -183,12 +197,15 @@ class GitmeRebornApp extends StatelessWidget {
 
 而這裡 `runApp` 函數我們帶入 `GitmeRebornApp` 這個 `Widget` 給它(`StatelessWidget` 表示他是沒有附加狀態的 `Widget`)，後續 Flutter 都會幫你處理好。
 
-注意，這裡使用 `MaterialApp`，它直接封裝了 Google 推出的 Material Design 的一些設定。如果想使用 Apple iOS 風格設計可使用 `CupertinoApp` 來建構，基本上直接使用 `MaterialApp`就有得玩了~
+> 小提醒:
+> 
+> * 這裡使用 `MaterialApp`(`import "package:flutter/material.dart";`)，它直接封裝了 Google 推出的 Material Design 的一些設定。
+> * 如果想使用 Apple iOS 風格設計可使用 `CupertinoApp` 來建構，基本上直接使用 `MaterialApp`就有得玩了~
 
 
 ### 登入頁面
 
-`pages/login.dart`
+`lib/pages/login.dart`
 ``` dart
 import 'package:flutter/material.dart';
 
@@ -244,17 +261,20 @@ class LoginPage extends StatelessWidget {
 
 ![day3-2.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day3-2.png?raw=true)
 
-接下來直接看看我們在 `GitmeRebornApp.home` 裡面自己寫的的 `LoginPage`。
+可以看到我們在 `GitmeRebornApp.home` 裡面寫 `LoginPage`，剛跑起 App 時就會自動顯示出登入的畫面。
 
-基本上所在撰寫新的 `Widget` 時都是以 `StatelessWidget` 起手，如果頁面會使用到一些狀態改變(使用者操作、讀取數據...等等事情發生時)，才會用到 `StatefulWidget`
+> 小提醒:
+> 
+> * 基本上我在撰寫新的 `Widget` 時都是以 `StatelessWidget` 起手。
+> * 通常只有在頁面使用到一些狀態改變(比如，使用者操作、讀取數據...等等事情發生時)，才會用到 `StatefulWidget`。
 
-
+--
 
 ### 欸!? 暫停一下
 
-> blablabla 貼了一大堆程式碼，直接就進入業配(頁面)主題阿~~  
-> 根本無法承受阿~~~  
-> 一堆概念根本不知道怎麼來的阿...
+> * blablabla 貼了一大堆程式碼，直接就進入業配(頁面)主題阿~~  
+> * 根本無法承受阿~~~  
+> * 一堆概念根本不知道怎麼來的阿...
 
 哦哦哦~ 我知道... 畢竟一開始我也是這樣的...
 
@@ -266,17 +286,18 @@ class LoginPage extends StatelessWidget {
 * Flutter 很講重建構 UI 的方式應為陳述式(宣告式)(Declarative UI)的思考方式，相對於以前 Android 或 Java Swing 的命令式(Imperative UI)。  
   ![Start thinking declaratively](https://flutter.dev/assets/development/data-and-backend/state-mgmt/ui-equals-function-of-state-54b01b000694caf9da439bd3f774ef22b00e92a62d3b2ade4f2e95c8555b8ca7.png)
   所以在開發 Flutter App，如果仔細觀察，其實可以很容易的將規劃的 UI，直接對應到程式碼。  
-  所有事件(操作)發生都會改變狀態，而開發者應該直接思考的是  
   
-  > **狀態如何輸入** 會 **輸出怎樣的畫面**
+  那什麼是陳述式 UI 呢？簡單來說，因為所有事件(操作)發生都會改變狀態，所以開發者應該直接思考的是  
   
-  ，也就是上圖的 f 函數。
+  > 如何將 **狀態輸入** 轉換成 **輸出畫面**
+  
+  也就是開發者直接思考如何寫出上圖的 f 函數。而 Flutter 就是提供建構 f 函數的工具。
 
-* **[深入概念]** Flutter 內部在構件及渲染畫面的步驟是  
+* **[深入探索]** Flutter 內部在構件及渲染畫面的步驟是  
 
   `Widget Tree => Element Tree => RenderObject Tree`
 
-  可以大致想像 Element Tree 是中間人，它必須知道 Widget Tree 做了什麼狀態改變，它需要怎調整(重建) Element Tree，另外它還要通知 RenderObject Tree 去渲染畫面。
+  可以大致想像 Element Tree 是中間人，它必須知道 Widget Tree 做了什麼狀態改變，然後它需要怎麼調整(重建) Element Tree，另外它還要通知 RenderObject Tree 去渲染新畫面。
 
 
 好了，到這裡希望大家能多多少少理解到 Flutter 開發 UI 的概念，後續在看程式碼上也比較容易理解~
