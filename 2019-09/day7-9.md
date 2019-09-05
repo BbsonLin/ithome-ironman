@@ -320,6 +320,7 @@ class ProfileInfo extends StatelessWidget {
 > * 想深入了解的同學不妨看看參考中的 YouTube 影片。
 
 --
+
 成果
 
 [![day8-3.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day8-3.gif?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/540a1e59526258627c2bf0062c309babf4f54cbd)
@@ -330,4 +331,89 @@ class ProfileInfo extends StatelessWidget {
 參考:
 
 * [YouTube - Slivers Explained - Making Dynamic Layouts (The Boring Flutter Development Show, Ep. 12)](https://youtu.be/Mz3kHQxBjGg)
+* [StackOverflow - TabView inside CustomScrollView](https://stackoverflow.com/questions/54066604/tabview-inside-customscrollview)
 * [程式設計之美 - Material Design 2設計規範（五十六）：頂部應用欄](https://beautyofprogram.com/2018/08/material-design-2%e8%a8%ad%e8%a8%88%e8%a6%8f%e7%af%84%ef%bc%88%e4%ba%94%e5%8d%81%e5%85%ad%ef%bc%89%ef%bc%9a%e9%a0%82%e9%83%a8%e6%87%89%e7%94%a8%e6%ac%84/)
+
+
+---
+
+## Day 9
+
+### 個人頁面(Profile Page) - 續
+
+我們接續昨天的部份，接下來我們要完成個人頁面的下半部。
+
+首先，第一個 Tab 就是倉庫頁(RepoPage)，是不是有種似曾相似的感覺？
+
+沒錯，記得我們在 Day 5 時有創建一個 `RepoPage` 給主頁面使用嗎？  
+在這裡可以直接拿來復用的，我們就不客氣拿來用吧~
+
+![day9-1.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day9-1.gif?raw=true)
+
+痾...  
+果然，一切不會想像中的順利阿...  
+在 `RepoPage` 裡向下滑動(捲動)，上面的 AppBar 竟然不會縮起來...
+
+
+> 感性: 怎麼會這樣!?難道我寫錯了什麼嗎~~~ (崩潰  
+> 理性: 沒事，遇到問題根本就是工程師日常麻~ 平常心拉 (笑  
+> 感性: 那要怎麼解決呢? 揪命阿~~ (淚  
+> 理性: 別緊張，聰明的你一定知道，請教 Google 大神吧~ 哈哈  
+> (腦內[腦補]小劇場)
+
+沒錯找 Google，一下就找到 [StackOverflow - how to implement a sliverAppBar with a tabBar](https://stackoverflow.com/questions/50741732/how-to-implement-a-sliverappbar-with-a-tabbar)，裡頭有一個關鍵的 Widget: [`NestedScrollView`](https://api.flutter.dev/flutter/widgets/NestedScrollView-class.html)。
+
+我們讀一下 `NestedScrollView` 文件吧~
+
+> 在捲動畫面(視圖)中裡面可以包含不只一個捲動畫面(視圖)，且他們都需要知道目前捲動到的位置。
+> 
+> 最常見的情況就是捲動畫面裡 `SliverAppBar` 中頂部包含一個 `TabBar` ，以及在 body 中使用 `TabBarView` (這樣作可基於 tab 來改變需捲動的內容)
+> 
+> ...  
+> (翻譯自 https://api.flutter.dev/flutter/widgets/NestedScrollView-class.html)
+
+哇靠~ 才讀到第二段落，這不就是我們遇到的問題嗎?  
+原來， Flutter Team 的早就知道會有這個問題拉~
+
+立馬來改一下程式碼吧~
+
+[![day9-2.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day9-2.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/1caa5cbe28f2199866c81996d5acfef5acc9d0ec#diff-52b5dc35abfef7486fcd740b3834b416)
+
+稍作講解
+
+首先，在 `NestedScrollView` 中有一個 `headerSliverBuilder` 屬性，我們把原本的 `SliverAppBar` 透過這個 Builder 來裡面建造。  
+接下來， `NestedScrollView.body` 的部份就可以放 `TabBarView` 拉~
+
+是不是完全感覺就是給這個頁面設計的阿~ (讚
+
+
+> 小提醒:
+> 
+> * 在這邊我稍微調整了一下昨天 `SliverAppBar` 裡 `TabBar` 的位置，改放在 `SliverAppBar.bottom` 這屬性下面，為了是要往下滑動(捲動)時，`TabBar` 仍然能被操作。
+> * 另外也調整 `ProfileInfo` 的位置，詳細可以看 Commit。
+
+--
+
+修改後成果
+
+![day9-3.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day9-3.gif?raw=true)
+
+
+其他的 Tab，Star 項目頁面我也暫用 `RepoPage` 代替(之後接 Github API 會再重構 `RepoPage`)；而 Follower 與 Following 頁面都使用 `FollowPage`。
+
+--
+
+目前個人頁面 GIF
+
+[![day9-4.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day9-4.gif?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/3e53b6f3edb33d3d0379c6073b498672fd9978b6)
+> 點選 GIF 可直接看 Commit
+
+### 欸!? 休息一下
+
+沒錯! 休息是為了走更長遠的路~
+
+今天到這邊本人的精神也差不多耗弱了~ XD  
+沒想到會遇到些小插曲，不過也意外的有收穫呢~
+
+有什麼建議或錯誤，歡迎大家留言~~  
+那麼明天再接再厲囉~~ 在下告辭~~ (溜
