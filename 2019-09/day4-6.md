@@ -3,7 +3,7 @@
 # 用 Flutter 開發一個 Android App 吧 - Day4 ~ Day6
 
 
-## Day 4
+## Day 4. 首頁、路由
 
 ### 主頁面 - 首頁
 
@@ -118,14 +118,17 @@ class HomePage extends StatelessWidget {
   }
 }
 ```
+
+先來簡單看個分解圖~
+
 ![day4-1.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-1.png?raw=true)
 
 
-這邊登入後會進入主畫面(MainPage)，根據 TabBar 四個 Tab 分成四個頁面，首頁(HomePage)、倉庫頁(RepoPage)、近況頁(ActivityPage)、問題頁(IssuePage)
+這邊登入後會進入主畫面(MainPage)，根據 TabBar 四個 Tab 分成四個頁面，首頁(HomePage)、倉庫頁(RepoPage)、近況頁(ActivityPage)、議題頁(IssuePage)
 
 可以注意到，主畫面跟登入頁一樣使用 `Scaffold` 這個 Widget，主要搭配 `MaterialApp` 作使用，它包含了
 
-* Material Design 的排版(如屬性 appBar, bottomAppBar, floatingActionButton...)
+* Material Design 的元件(如屬性 appBar, bottomAppBar, floatingActionButton...)
 * 互動性的元素(如 drawers, snack bars, and bottom sheets)
 * 一定程度的可客製化(如 theme, l10n)
 
@@ -134,7 +137,7 @@ class HomePage extends StatelessWidget {
 一樣起手都是 `StatelessWidget`，上圖特別我用紅色框起來都是可以對應程式碼裡寫的 Widget，
 
 > 目前都只是再拉排版的動作，程式碼看起來不免看起來臃腫  
-> 之後都是需要慢慢重構，讓程式碼好維護管理的
+> 之後都是需要慢慢重構，讓程式碼好維護管理
  
 
 ### 欸!? 怪怪的
@@ -145,11 +148,12 @@ class HomePage extends StatelessWidget {
 
 對，沒錯上面的 TabBar 每個 Tab 根本文字展示不完全，而且離兩邊圖示有些落差...
 
-這時候就可以開啟 Flutter debug 工具或 Devtools (在 VSCode 中可以 Ctrl+Shift+p 直接找 Flutter: Toggle Debug Painting 或 Dart: Open DevTools)
+這時候就可以開啟 Flutter debug 工具或 Devtools   
+(在 VSCode 中可以 Ctrl+Shift+p 直接找 Flutter: Toggle Debug Painting 或 Dart: Open DevTools)
 
 ![day4-2.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-2.png?raw=true)
 
-可以清楚看到 Layout 長什麼樣子，加上查詢文件發現有兩處可調整
+可以清楚看到 Layout 長什麼樣子，加上查詢文件後發現有兩處可調整
 
 1. Tab 根本文字展示不完全 => TabBar.labelPadding: EdgeInsets.zero,
 2. 離兩邊圖示有些落差 => AppBar.titleSpacing: 0.0
@@ -168,7 +172,8 @@ class HomePage extends StatelessWidget {
 LoginPage (/login) <== [Navigator] ==> MainPage (/home)
 ```
 
-Flutter 裡在控管 `Route` 切換時會有個中間人 `Navigator`，而控管機制跟 Stack 一樣用 pop/push 操作，詳細可以參考這篇 Medium 文章([Flutter: Push, Pop, Push](https://medium.com/flutter-community/flutter-push-pop-push-1bb718b13c31))
+Flutter 裡在 `Route` 切換時會有個中間人 `Navigator` 來作導覽。  
+而導覽機制跟 Stack 一樣用 pop/push 操作，詳細可以參考這篇 Medium 文章([Flutter: Push, Pop, Push](https://medium.com/flutter-community/flutter-push-pop-push-1bb718b13c31))
 
 
 `routes.dart`
@@ -186,7 +191,7 @@ class GitmeRebornRoutes {
 
 接下來簡單談一下 `MaterialApp` 裡是怎麼設定路由的。從上圖 **紅框** 中可以看到是影響頁面轉換的屬性。
 
-主要判斷的步驟為
+主要判斷頁面如何轉換的步驟為
 
 > 1. 若有設定 home 屬性，便認之為 / ([root]根路由)
 > 2. 否則查找 routes 屬性，有無對應路由設定。
@@ -216,11 +221,16 @@ class GitmeRebornRoutes {
 ---
 
 
-## Day 5
+## Day 5. 登入登出、倉庫頁、近況頁與議題頁
 
 ### 登入/登出
 
-登入按下登入按鈕後的時候，需要有一個 Loading 的 Modal，而在 Flutter 所提供的 Material 元件裡找不到能直接使用的，這時候就到 Dart 的套件管理網站 https://pub.dev/flutter 去找找有沒有別人寫好的套件吧~
+登入按下登入按鈕後的時候，需要有一個 Loading 的 Modal。  
+如圖
+
+![day5-5.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-5.jpeg?raw=true)
+
+而在 Flutter 所提供的 Material 元件裡找不到能直接使用的，這時候就到 Dart 的套件管理網站 https://pub.dev/flutter 去找找有沒有別人寫好的套件吧~
 
 滿幸運的是，我找到一個名為 [flutter_progress_hud](https://pub.dev/packages/flutter_progress_hud) 的套件，整體狀態有 90 分呢~  
 
@@ -228,13 +238,17 @@ class GitmeRebornRoutes {
 
 [![day5-1.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-1.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/eb9c76de098952ee8049288abec13d223b484c03#diff-9f0df600d112c287183a6aa77167120d)
 
-登出的話需要跳出一個讓使用者確定登出的 AlertDialog。
+登出的話需要跳出一個讓使用者確定登出的 AlertDialog。  
+如圖
 
-修改 `lib/pages/home.dart`
+![day5-6.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-6.jpeg?raw=true)
+
+
+AlertDialog 在 Flutter 就有提供對應的 Material 元件，修改 `lib/pages/home.dart`
 
 [![day5-2.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-2.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/eb9c76de098952ee8049288abec13d223b484c03#diff-d3cda190df50f3330b22952d914ba8fe)
 
-> 注意:  
+> 小提醒:  
 > * `pubspec.yaml` dependencies 裡面需要新增 `flutter_progress_hud: ^1.0.2` 這套件。
 > * 參考: [官方文件 - Using packages](https://flutter.dev/docs/development/packages-and-plugins/using-packages)
 
@@ -305,13 +319,15 @@ class RepoPage extends StatelessWidget {
 ![day5-3.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-3.png?raw=true)
 
 
-### 近況頁(ActivityPage) 與 問題頁(IssuePage)
+### 近況頁(ActivityPage) 與 議題頁(IssuePage)
 
 那麼這兩個頁面其實就是依樣畫葫蘆，偷懶一下就不貼程式碼上來了~🤪  
 詳細 commit 可以點擊成果 GIF 觀看~
 
-> 注意:  
-> 這邊雖然使用了變數儲存狀態，但還是使用 `StatelessWidget`，想要達成交互式(Reactive) UI 需要使用 `StatefulWidget`，後續會談到~
+> 小提醒:  
+> 
+> * 這邊雖然用了變數儲存狀態，但還是使用 `StatelessWidget`
+> * 想要達成交互式(Reactive) UI 需要使用 `StatefulWidget`，後續會談到~
 
 
 今日成果
@@ -323,7 +339,7 @@ class RepoPage extends StatelessWidget {
 ---
 
 
-## Day 6
+## Day 6. 導覽選單、搜尋頁
 
 ### 導覽選單(Drawer)
 
@@ -422,6 +438,10 @@ class DrawerTile extends StatelessWidget {
 ```
 
 個人習慣放自定義的 Widget 在 components 目錄裡面，`DrawerTile` 單純的封裝 `ListTile` 並把一些屬性定義出來 `icon`、`text`、`onPressed`。
+
+--
+
+成果
 
 ![day6-2.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-2.png?raw=true)
 
@@ -558,14 +578,15 @@ class SearchRepoResult extends StatelessWidget {
 
 可以看得出 `GitmeRebornSearchDelegate.buildActions` 就是建構紅框 actions，依此類推 leading, suggestions 和 results 。
 
-> 注意:  
+> 小提醒:
+> 
 > * `SearchDelegate` 只是個抽象類別，本身沒實現 buildActions 等函數，一定需要自己實現搜尋的 Delegate。
 > * 調用 `showSearch` 時要帶入 delegate 屬性的是自己實現的 `GitmeRebornSearchDelegate`，並非 `SearchDelegate`，否則會跳出紅色錯誤頁面。
 > * Flutter 為何會這麼設計，原因之一無非是更彈性一點，你可以建構自己的 actions 區，又不失風格一致性。
 
 --
 
-今日成果
+成果
 
 ![day6-5.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-5.gif?raw=true)
 
