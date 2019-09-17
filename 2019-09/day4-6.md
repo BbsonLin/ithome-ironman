@@ -2,6 +2,7 @@
 
 # 用 Flutter 開發一個 Android App 吧 - Day4 ~ Day6
 
+> 本系列同步發表在 [**個人部落格**](https://bbsonlin.github.io/tags/ironman2020/)，歡迎大家關注~
 
 ## Day 4. 首頁、路由
 
@@ -45,21 +46,7 @@ class MainPage extends StatelessWidget {
           ],
         ),
         drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: Text("Bobson Lin"),
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey,
-                ),
-              ),
-              ListTile(
-                title: Text("Sign out"),
-                onTap: () {},
-              ),
-            ],
-          ),
+        ...(略)
         ),
       ),
     );
@@ -100,14 +87,6 @@ class HomePage extends StatelessWidget {
           ...(中間省略)
           
           ListTile(
-            title: Text("google / mediapipe"),
-            subtitle: Text("C++   1,505   201"),
-            onTap: () {},
-          ),
-          Divider(
-            height: 0.0,
-          ),
-          ListTile(
             title: Text("MisterBooo / LeetCodeAnimation"),
             subtitle: Text("Java   38,443   6,483"),
             onTap: () {},
@@ -119,7 +98,7 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-先來簡單看個分解圖~
+這邊程式碼有點多，沒關係，先來簡單看個分解圖~
 
 ![day4-1.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-1.png?raw=true)
 
@@ -139,6 +118,7 @@ class HomePage extends StatelessWidget {
 > 目前都只是再拉排版的動作，程式碼看起來不免看起來臃腫  
 > 之後都是需要慢慢重構，讓程式碼好維護管理
  
+--
 
 ### 欸!? 怪怪的
 
@@ -205,7 +185,7 @@ class GitmeRebornRoutes {
 `lib/main.dart`
 [![day4-4.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-4.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/9a64f723e70d09e3f29621ee78c524dfa8ab16e4#diff-fe53fad46868a294b309fc85ed138997)
 
-主要將 home 屬性移除，加上 routes 對應表格並且用 onGenerateRoute 來跳轉根路由到登入畫面(LoginPage)。
+主要將 `home` 屬性移除，加上 `routes` 對應表格並且用 `onGenerateRoute` 來跳轉根路由到登入畫面(LoginPage)。
 
 `lib/pages/home.dart` & `lib/pages/login.dart`
 [![day4-5.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day4-5.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/9a64f723e70d09e3f29621ee78c524dfa8ab16e4#diff-d3cda190df50f3330b22952d914ba8fe)
@@ -223,6 +203,8 @@ class GitmeRebornRoutes {
 
 ## Day 5. 登入登出、倉庫頁、近況頁與議題頁
 
+> 本系列同步發表在 [**個人部落格**](https://bbsonlin.github.io/tags/flutter/)，歡迎大家關注~
+
 ### 登入/登出
 
 登入按下登入按鈕後的時候，需要有一個 Loading 的 Modal。  
@@ -230,15 +212,18 @@ class GitmeRebornRoutes {
 
 ![day5-5.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-5.jpeg?raw=true)
 
-而在 Flutter 所提供的 Material 元件裡找不到能直接使用的，這時候就到 Dart 的套件管理網站 https://pub.dev/flutter 去找找有沒有別人寫好的套件吧~
+而在 Flutter 所提供的 Material 元件裡找不到能直接使用的類似元件，這時候就到 Dart 的套件管理網站 https://pub.dev/flutter 去找找有沒有別人寫好的套件吧~
 
 滿幸運的是，我找到一個名為 [flutter_progress_hud](https://pub.dev/packages/flutter_progress_hud) 的套件，整體狀態有 90 分呢~  
 
 照著文件範例修改一下 `lib/pages/login.dart`
 
 [![day5-1.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-1.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/eb9c76de098952ee8049288abec13d223b484c03#diff-9f0df600d112c287183a6aa77167120d)
+> 圖小，可點擊圖片看 Commit
 
-登出的話需要跳出一個讓使用者確定登出的 AlertDialog。  
+--
+
+另外，登出的話需要跳出一個讓使用者確定登出的 AlertDialog。  
 如圖
 
 ![day5-6.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-6.jpeg?raw=true)
@@ -247,6 +232,7 @@ class GitmeRebornRoutes {
 AlertDialog 在 Flutter 就有提供對應的 Material 元件，修改 `lib/pages/home.dart`
 
 [![day5-2.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-2.jpeg?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/eb9c76de098952ee8049288abec13d223b484c03#diff-d3cda190df50f3330b22952d914ba8fe)
+> 圖小，可點擊圖片看 Commit
 
 > 小提醒:  
 > * `pubspec.yaml` dependencies 裡面需要新增 `flutter_progress_hud: ^1.0.2` 這套件。
@@ -256,9 +242,9 @@ AlertDialog 在 Flutter 就有提供對應的 Material 元件，修改 `lib/page
 
 接下來，我們把後續的主頁面的排版先架構出來吧。
 
-在主頁面時可以看到笨笨的寫了好幾個 `ListTile` 和 `Divider`，這樣個作法也許在作 Demo 時還可以使用，但實際上若有數十個、數百個不就完了嗎？
+在 Day3 主頁面時可以看到我笨笨的寫了好幾個 `ListTile` 和 `Divider`，這樣的作法也許在作 Demo 時還可以使用，但實際上若有數十個、數百個不就完了嗎？
 
-回想一下 Day3 講的 `Think declaratively`，其他頁面可以稍微改良一下，我們可以先暫時宣告變數當作狀態，接著 `Widget` 在從變數中填入對應要顯示的值。
+回想一下 Day3 講的 `Think declaratively`，其他頁面可以稍微改良一下，我們可以先用 ***暫時宣告的變數*** 當作狀態，在 `Widget build(BuildContext context)` 時可以直接使用 ***暫時宣告的變數*** 來構建畫面。
 
 什麼意思呢~ 接著往下看。
 
@@ -321,19 +307,17 @@ class RepoPage extends StatelessWidget {
 
 ### 近況頁(ActivityPage) 與 議題頁(IssuePage)
 
-那麼這兩個頁面其實就是依樣畫葫蘆，偷懶一下就不貼程式碼上來了~🤪  
+那麼這兩個頁面其實就是依樣畫葫蘆，偷懶一下就不貼程式碼上來了~?  
 詳細 commit 可以點擊成果 GIF 觀看~
 
 > 小提醒:  
 > 
-> * 這邊雖然用了變數儲存狀態，但還是使用 `StatelessWidget`
-> * 想要達成交互式(Reactive) UI 需要使用 `StatefulWidget`，後續會談到~
+> 這邊我在 `StatelessWidget` 裡用了 「暫時宣告的變數」 來儲存狀態，看似沒什麼問題，但想要達成交互式(Reactive) UI 需要使用 `StatefulWidget`，後續會慢慢使用到它~
 
 
 今日成果
 
 [![day5-4.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day5-4.gif?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/6a837c743d9a792552ff32003171b0023c68d756)
-
 
 
 ---
@@ -439,11 +423,34 @@ class DrawerTile extends StatelessWidget {
 
 個人習慣放自定義的 Widget 在 components 目錄裡面，`DrawerTile` 單純的封裝 `ListTile` 並把一些屬性定義出來 `icon`、`text`、`onPressed`。
 
+封裝完畢之後我們就可以非常簡易的作些使用，像是
+
+``` dart
+...
+
+DrawerTile(
+  icon: Icon(Icons.trending_up),
+  text: "Trending",
+  onPressed: () {
+    print("Head to Trending Page");
+  },
+),
+DrawerTile(
+  icon: Icon(Icons.settings),
+  text: "Setting",
+  onPressed: () {
+    print("Head to Setting Page");
+  },
+),
+
+...
+```
+
 --
 
 成果
 
-![day6-2.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-2.png?raw=true)
+[![day6-2.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-2.png?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/443ccdca5e20cb1e1a5c560ffc88806c78305483)
 
 
 ### 搜尋頁(Search Page)
@@ -453,9 +460,16 @@ class DrawerTile extends StatelessWidget {
 
 渲染出來的頁面是符合 [Material Design - Expandable search](https://material.io/archive/guidelines/patterns/search.html#search-in-app-search) 的設計。
 
+--
+
+那就來實際使用看看吧~
+
 ![day6-3.jpeg](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-3.jpeg?raw=true)
 
-首先，要在按下搜尋按鈕時調用 `showSearch`。
+首先，要在按下搜尋按鈕時調用 `showSearch`。  
+
+接下來，來實現搜尋頁，搜尋頁跟前面的其他頁面程式碼上會有點小不同。  
+這邊需直接繼承 `SearchDelegate` 來實現搜尋頁。
 
 `lib/pages/search.dart`
 ``` dart
@@ -572,11 +586,12 @@ class SearchRepoResult extends StatelessWidget {
 }
 ```
 
-直接看程式碼可能有點霧煞煞，我們來看渲染出來的頁面，與其對應的關係。
+直接看完這麼長的程式碼可能有點霧煞煞，我們可以來看渲染出來的頁面，與其對應的關係。
 
 ![day6-4.png](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-4.png?raw=true)
 
-可以看得出 `GitmeRebornSearchDelegate.buildActions` 就是建構紅框 actions，依此類推 leading, suggestions 和 results 。
+對應後可以看得出 `GitmeRebornSearchDelegate` 裡 `buildActions` 函數就是建構紅框 actions。  
+依此類推 leading(`buildLeading`), suggestions(`buildSuggestions`) 和 results(`buildResults`) 。
 
 > 小提醒:
 > 
@@ -588,7 +603,7 @@ class SearchRepoResult extends StatelessWidget {
 
 成果
 
-![day6-5.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-5.gif?raw=true)
+[![day6-5.gif](https://github.com/BbsonLin/ithome-ironman/blob/master/2019-09/images/day6-5.gif?raw=true)](https://github.com/BbsonLin/gitme_reborn/commit/314d2bb9f941f91da79c8df6a2c081da07fe8497)
 
 
 *參考*
